@@ -1,0 +1,11 @@
+STOCKIO LOGO PLACEHOLDER
+
+Place your Stockio logo here as: stockio-logo.png
+
+The logo will be automatically displayed in the header.
+If no logo is found, it will show: 📦 Stockio
+
+Recommended logo specifications:
+- Format: PNG (with transparent background)
+- Size: 200x60 pixels (or similar aspect ratio)
+- Will be automatically resized to 40px height in header

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0" metadata-complete="false">
+  <display-name>Stockio - Inventory Management System</display-name>
+  
+  <!-- Welcome Files -->
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Session Configuration -->
+  <session-config>
+    <session-timeout>60</session-timeout>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>false</secure>
+    </cookie-config>
+  </session-config>
+  
+  <!-- Error Pages -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error/404.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error/500.jsp</location>
+  </error-page>
+  
+  <!-- Context Parameters -->
+  <context-param>
+    <param-name>hibernate.connection.driver_class</param-name>
+    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>hibernate.connection.url</param-name>
+    <param-value>jdbc:mysql://localhost:3306/inventory_db?useSSL=false&amp;serverTimezone=UTC</param-value>
+  </context-param>
+  
+  <!-- Filters -->
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.ims.filter.AuthenticationFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/dashboard.jsp</url-pattern>
+    <url-pattern>/products.jsp</url-pattern>
+    <url-pattern>/product-form.jsp</url-pattern>
+    <url-pattern>/categories.jsp</url-pattern>
+    <url-pattern>/suppliers.jsp</url-pattern>
+    <url-pattern>/reports.jsp</url-pattern>
+    <url-pattern>/users.jsp</url-pattern>
+    <url-pattern>/product</url-pattern>
+    <url-pattern>/category</url-pattern>
+    <url-pattern>/supplier</url-pattern>
+  </filter-mapping>
+</web-app>
