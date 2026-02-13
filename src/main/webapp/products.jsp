@@ -2,7 +2,6 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-            <!-- Check if user is logged in -->
             <c:if test="${empty sessionScope.user}">
                 <c:redirect url="login.jsp" />
             </c:if>
@@ -32,7 +31,7 @@
                                 </a>
                             </div>
 
-                            <!-- Messages -->
+    
                             <c:if test="${param.error != null}">
                                 <div class="alert alert-danger">
                                     <span class="material-icons-sharp">error</span> ${param.error}
