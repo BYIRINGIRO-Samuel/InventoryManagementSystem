@@ -1,4 +1,5 @@
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\ProductDAO.java
+C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\SalesOrderDAO.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\util\AppContextListener.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\model\Product.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\filter\AuthenticationFilter.java
@@ -6,6 +7,7 @@ C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\mode
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\servlet\ProductServlet.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\StockTransactionDAO.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\BaseDAO.java
+C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\model\SalesOrderItem.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\util\HibernateUtil.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\util\PasswordUtil.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\servlet\AuthServlet.java
@@ -13,7 +15,9 @@ C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\mode
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\CategoryDAO.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\SupplierDAO.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\model\Supplier.java
+C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\servlet\SalesServlet.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\servlet\SupplierServlet.java
+C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\model\SalesOrder.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\dao\UserDAO.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\servlet\CategoryServlet.java
 C:\Users\HHP\Downloads\imsa\InventoryManagementSystem\src\main\java\com\ims\util\H2HibernateUtil.java

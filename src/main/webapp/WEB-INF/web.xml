@@ -50,11 +50,14 @@
     <url-pattern>/dashboard.jsp</url-pattern>
     <url-pattern>/products.jsp</url-pattern>
     <url-pattern>/product-form.jsp</url-pattern>
+    <url-pattern>/sales.jsp</url-pattern>
+    <url-pattern>/sales-form.jsp</url-pattern>
     <url-pattern>/categories.jsp</url-pattern>
     <url-pattern>/suppliers.jsp</url-pattern>
     <url-pattern>/reports.jsp</url-pattern>
     <url-pattern>/users.jsp</url-pattern>
     <url-pattern>/product</url-pattern>
+    <url-pattern>/sales</url-pattern>
     <url-pattern>/category</url-pattern>
     <url-pattern>/supplier</url-pattern>
   </filter-mapping>
