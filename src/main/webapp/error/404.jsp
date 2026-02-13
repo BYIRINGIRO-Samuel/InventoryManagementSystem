@@ -25,7 +25,7 @@
             .error-code {
                 font-size: 8rem;
                 font-weight: bold;
-                color: #8B4513;
+                color: #001f3f;
                 line-height: 1;
                 margin-bottom: 1rem;
             }

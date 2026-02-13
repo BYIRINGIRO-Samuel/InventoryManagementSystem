@@ -13,206 +13,201 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${empty product ? 'Add New Product' : 'Edit Product'} - Stockio</title>
-            <link rel="stylesheet" href="css/style.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+            <link rel="stylesheet" href="css/main.css">
         </head>
 
         <body>
-            <jsp:include page="includes/header.jsp" />
+            <div class="container wide-view">
+                <jsp:include page="includes/sidebar.jsp" />
 
-            <div class="container">
-                <div class="d-flex justify-between align-center mb-3">
-                    <h1 class="page-title">
-                        <i class="fas fa-${empty product ? 'plus' : 'edit'}"></i>
-                        ${empty product ? 'Add New Product' : 'Edit Product'}
-                    </h1>
-                    <a href="product?action=list" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Products
-                    </a>
-                </div>
-
-                <!-- Display messages -->
-                <c:if test="${param.error != null}">
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle"></i> ${param.error}
-                    </div>
-                </c:if>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-info-circle"></i> Product Information
-                        </h2>
+                <main>
+                    <div class="d-flex justify-between align-center mb-3">
+                        <h1 class="page-title">
+                            <span class="material-icons-sharp">${empty product ? 'add_circle' : 'edit'}</span>
+                            ${empty product ? 'Add New Product' : 'Edit Product'}
+                        </h1>
+                        <a href="product?action=list" class="btn btn-secondary">
+                            <span class="material-icons-sharp">arrow_back</span> Back to Products
+                        </a>
                     </div>
 
-                    <form action="product" method="post" id="productForm">
-                        <input type="hidden" name="action" value="${empty product ? 'add' : 'update'}">
-                        <c:if test="${not empty product}">
-                            <input type="hidden" name="id" value="${product.id}">
-                        </c:if>
+                    <!-- Display messages -->
+                    <c:if test="${param.error != null}">
+                        <div class="alert alert-danger">
+                            <span class="material-icons-sharp">error</span> ${param.error}
+                        </div>
+                    </c:if>
 
-                        <!-- Basic Information -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">SKU <span style="color: red;">*</span></label>
-                                <input type="text" name="sku" class="form-control" value="${product.sku}"
-                                    placeholder="Product SKU" required ${not empty product ? 'readonly' : '' }>
-                                <small class="text-muted">Unique product identifier</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Product Name <span style="color: red;">*</span></label>
-                                <input type="text" name="name" class="form-control" value="${product.name}"
-                                    placeholder="Product Name" required>
-                            </div>
+                    <div class="card mb-3">
+                        <div class="d-flex justify-between align-center mb-2">
+                            <h2 class="h2">Product Information</h2>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" rows="3"
-                                placeholder="Product description...">${product.description}</textarea>
-                        </div>
+                        <form action="product" method="post" id="productForm">
+                            <input type="hidden" name="action" value="${empty product ? 'add' : 'update'}">
+                            <c:if test="${not empty product}">
+                                <input type="hidden" name="id" value="${product.id}">
+                            </c:if>
 
-                        <!-- Pricing Information -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Selling Price</label>
-                                <div style="position: relative;">
-                                    <span
-                                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray);">$</span>
-                                    <input type="number" name="price" class="form-control" value="${product.price}"
-                                        step="0.01" min="0" placeholder="0.00" style="padding-left: 30px;">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Cost Price</label>
-                                <div style="position: relative;">
-                                    <span
-                                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray);">$</span>
-                                    <input type="number" name="costPrice" class="form-control"
-                                        value="${product.costPrice}" step="0.01" min="0" placeholder="0.00"
-                                        style="padding-left: 30px;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Inventory Information -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Initial Quantity</label>
-                                <input type="number" name="quantity" class="form-control"
-                                    value="${empty product ? '0' : product.quantityInStock}" min="0" placeholder="0">
-                                <small class="text-muted">Current stock quantity</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Reorder Level</label>
-                                <input type="number" name="reorderLevel" class="form-control"
-                                    value="${empty product ? '10' : product.reorderLevel}" min="0" placeholder="10">
-                                <small class="text-muted">Minimum stock level before reorder alert</small>
-                            </div>
-                        </div>
-
-                        <!-- Category and Supplier -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Category</label>
-                                <select name="categoryId" class="form-control">
-                                    <option value="">Select Category</option>
-                                    <c:forEach var="category" items="${categories}">
-                                        <option value="${category.id}" ${product.category.id==category.id ? 'selected'
-                                            : '' }>
-                                            ${category.name}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <small class="text-muted">
-                                    <a href="category-form.jsp" target="_blank">Add new category</a>
-                                </small>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Supplier</label>
-                                <select name="supplierId" class="form-control">
-                                    <option value="">Select Supplier</option>
-                                    <c:forEach var="supplier" items="${suppliers}">
-                                        <option value="${supplier.id}" ${product.supplier.id==supplier.id ? 'selected'
-                                            : '' }>
-                                            ${supplier.name}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <small class="text-muted">
-                                    <a href="supplier-form.jsp" target="_blank">Add new supplier</a>
-                                </small>
-                            </div>
-                        </div>
-
-                        <!-- Profit Margin Display -->
-                        <div class="card" style="background: var(--light-gray); margin: 1rem 0;">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-calculator"></i> Profit Analysis
-                                </h3>
-                            </div>
+                            <!-- Basic Information -->
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Profit Margin</label>
-                                    <div id="profitMargin" class="form-control"
-                                        style="background: white; font-weight: bold;">
-                                        Calculate automatically
+                                    <label class="form-label">SKU <span class="text-danger">*</span></label>
+                                    <input type="text" name="sku" class="form-control" value="${product.sku}"
+                                        placeholder="Product SKU" required ${not empty product ? 'readonly' : '' }>
+                                    <small class="text-muted">Unique product identifier</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" class="form-control" value="${product.name}"
+                                        placeholder="Product Name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3"
+                                    placeholder="Product description...">${product.description}</textarea>
+                            </div>
+
+                            <!-- Pricing Information -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Selling Price</label>
+                                    <div style="position: relative;">
+                                        <span
+                                            style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-dark);">$</span>
+                                        <input type="number" name="price" class="form-control" value="${product.price}"
+                                            step="0.01" min="0" placeholder="0.00" style="padding-left: 30px;">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Profit Amount</label>
-                                    <div id="profitAmount" class="form-control"
-                                        style="background: white; font-weight: bold;">
-                                        $0.00
+                                    <label class="form-label">Cost Price</label>
+                                    <div style="position: relative;">
+                                        <span
+                                            style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-info-dark);">$</span>
+                                        <input type="number" name="costPrice" class="form-control"
+                                            value="${product.costPrice}" step="0.01" min="0" placeholder="0.00"
+                                            style="padding-left: 30px;">
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Form Actions -->
-                        <div class="d-flex gap-2 mt-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-save"></i> ${empty product ? 'Add Product' : 'Update Product'}
-                            </button>
-                            <button type="reset" class="btn btn-secondary btn-lg">
-                                <i class="fas fa-undo"></i> Reset
-                            </button>
-                            <a href="product?action=list" class="btn btn-outline btn-lg">
-                                <i class="fas fa-times"></i> Cancel
-                            </a>
-                        </div>
-                    </form>
-                </div>
+                            <!-- Inventory Information -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Initial Quantity</label>
+                                    <input type="number" name="quantity" class="form-control"
+                                        value="${empty product ? '0' : product.quantityInStock}" min="0"
+                                        placeholder="0">
+                                    <small class="text-muted">Current stock quantity</small>
+                                </div>
 
-                <!-- Quick Actions -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-bolt"></i> Quick Actions
-                        </h2>
+                                <div class="form-group">
+                                    <label class="form-label">Reorder Level</label>
+                                    <input type="number" name="reorderLevel" class="form-control"
+                                        value="${empty product ? '10' : product.reorderLevel}" min="0" placeholder="10">
+                                    <small class="text-muted">Minimum stock level before reorder alert</small>
+                                </div>
+                            </div>
+
+                            <!-- Category and Supplier -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select name="categoryId" class="form-control">
+                                        <option value="">Select Category</option>
+                                        <c:forEach var="category" items="${categories}">
+                                            <option value="${category.id}" ${product.category.id==category.id
+                                                ? 'selected' : '' }>
+                                                ${category.name}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                    <small class="text-muted">
+                                        <a href="category-form.jsp" target="_blank" class="text-primary">Add new
+                                            category</a>
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Supplier</label>
+                                    <select name="supplierId" class="form-control">
+                                        <option value="">Select Supplier</option>
+                                        <c:forEach var="supplier" items="${suppliers}">
+                                            <option value="${supplier.id}" ${product.supplier.id==supplier.id
+                                                ? 'selected' : '' }>
+                                                ${supplier.name}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                    <small class="text-muted">
+                                        <a href="supplier-form.jsp" target="_blank" class="text-primary">Add new
+                                            supplier</a>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Profit Margin Display -->
+                            <div class="card bg-white mt-3 mb-3 border-1">
+                                <div class="d-flex justify-between align-center mb-2">
+                                    <h3 class="h3 text-primary">
+                                        <span class="material-icons-sharp"
+                                            style="font-size: 1.2rem; vertical-align: middle;">analytics</span> Profit
+                                        Analysis
+                                    </h3>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Profit Margin</label>
+                                        <div id="profitMargin" class="form-control bg-light fw-bold">
+                                            Calculate automatically
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Profit Amount</label>
+                                        <div id="profitAmount" class="form-control bg-light fw-bold">
+                                            $0.00
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="material-icons-sharp">save</span> ${empty product ? 'Add Product' :
+                                    'Update Product'}
+                                </button>
+                                <button type="reset" class="btn btn-secondary">
+                                    <span class="material-icons-sharp">restart_alt</span> Reset
+                                </button>
+                                <a href="product?action=list" class="btn btn-outline-secondary">
+                                    <span class="material-icons-sharp">close</span> Cancel
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    <div class="dashboard-grid">
-                        <button onclick="generateSKU()" class="btn btn-info">
-                            <i class="fas fa-magic"></i> Generate SKU
-                        </button>
-                        <button onclick="duplicateProduct()" class="btn btn-warning" ${empty product ? 'disabled' : ''
-                            }>
-                            <i class="fas fa-copy"></i> Duplicate Product
-                        </button>
-                        <button onclick="previewProduct()" class="btn btn-success">
-                            <i class="fas fa-eye"></i> Preview
-                        </button>
-                        <button onclick="saveAsDraft()" class="btn btn-secondary">
-                            <i class="fas fa-save"></i> Save as Draft
-                        </button>
-                    </div>
-                </div>
+                </main>
+            </div>
+            <button onclick="generateSKU()" class="btn btn-info">
+                <i class="fas fa-magic"></i> Generate SKU
+            </button>
+            <button onclick="duplicateProduct()" class="btn btn-warning" ${empty product ? 'disabled' : '' }>
+                <i class="fas fa-copy"></i> Duplicate Product
+            </button>
+            <button onclick="previewProduct()" class="btn btn-success">
+                <i class="fas fa-eye"></i> Preview
+            </button>
+            <button onclick="saveAsDraft()" class="btn btn-secondary">
+                <i class="fas fa-save"></i> Save as Draft
+            </button>
+            </div>
+            </div>
             </div>
 
             <script>

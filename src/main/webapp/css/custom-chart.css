@@ -1,0 +1,32 @@
+/* Removed conflicting body styles */
+
+.charts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.chart {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.chart h2 {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.chart h2 span {
+  font-size: 14px;
+}
+
+.chart canvas {
+  display: block;
+}

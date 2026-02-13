@@ -15,13 +15,13 @@
                     align-items: center;
                     justify-content: center;
                     min-height: 100vh;
-                    background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #F5DEB3 100%);
+                    background: linear-gradient(135deg, #f0f2f5 0%, #dce1eb 100%);
                 }
 
                 .login-container {
                     background: white;
                     border-radius: 20px;
-                    box-shadow: 0 20px 40px rgba(139, 69, 19, 0.3);
+                    box-shadow: 0 20px 40px rgba(0, 31, 63, 0.2);
                     overflow: hidden;
                     width: 100%;
                     max-width: 900px;
@@ -31,7 +31,7 @@
                 }
 
                 .login-left {
-                    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+                    background: linear-gradient(135deg, #001f3f 0%, #003366 100%);
                     color: white;
                     padding: 3rem;
                     display: flex;
@@ -66,7 +66,7 @@
                 }
 
                 .login-title {
-                    color: #8B4513;
+                    color: #001f3f;
                     font-size: 2rem;
                     margin-bottom: 2rem;
                     text-align: center;
@@ -86,7 +86,7 @@
                     left: 1rem;
                     top: 50%;
                     transform: translateY(-50%);
-                    color: #8B4513;
+                    color: #001f3f;
                     z-index: 1;
                 }
 
@@ -97,7 +97,7 @@
                 }
 
                 .login-footer a {
-                    color: #8B4513;
+                    color: #001f3f;
                     text-decoration: none;
                     font-weight: 500;
                 }
@@ -185,11 +185,11 @@
 
                     inputs.forEach(input => {
                         input.addEventListener('focus', function () {
-                            this.parentElement.querySelector('.form-icon').style.color = '#D2691E';
+                            this.parentElement.querySelector('.form-icon').style.color = '#003366';
                         });
 
                         input.addEventListener('blur', function () {
-                            this.parentElement.querySelector('.form-icon').style.color = '#8B4513';
+                            this.parentElement.querySelector('.form-icon').style.color = '#001f3f';
                         });
                     });
                 });

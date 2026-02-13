@@ -13,82 +13,99 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Categories - Stockio</title>
-            <link rel="stylesheet" href="css/style.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" />
+            <link rel="stylesheet" href="css/main.css">
         </head>
 
         <body>
-            <jsp:include page="includes/header.jsp" />
+            <div class="container wide-view">
+                <jsp:include page="includes/sidebar.jsp" />
 
-            <div class="container">
-                <div class="d-flex justify-between align-center mb-3">
-                    <h1 class="page-title">
-                        <i class="fas fa-tags"></i> Categories Management
-                    </h1>
-                    <a href="category-form.jsp" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add New Category
-                    </a>
-                </div>
+                <main>
+                    <h1>Categories Management</h1>
 
-                <!-- Display messages -->
-                <c:if test="${param.error != null}">
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle"></i> ${param.error}
-                    </div>
-                </c:if>
-
-                <c:if test="${param.message != null}">
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle"></i> ${param.message}
-                    </div>
-                </c:if>
-
-                <!-- Categories Grid -->
-                <c:choose>
-                    <c:when test="${empty categories}">
-                        <div class="card text-center">
-                            <i class="fas fa-tags"
-                                style="font-size: 4rem; color: var(--gray); margin-bottom: 1rem;"></i>
-                            <h3>No Categories Found</h3>
-                            <p>Start by creating your first product category.</p>
-                            <a href="category-form.jsp" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Add First Category
-                            </a>
+                    <div class="d-flex justify-between align-center mt-3 mb-3">
+                        <div class="date">
+                            <input type="date">
                         </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="dashboard-grid">
-                            <c:forEach var="category" items="${categories}">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-between align-center">
-                                        <h3 class="card-title">${category.name}</h3>
-                                        <div>
-                                            <a href="category?action=edit&id=${category.id}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
+                        <a href="category-form.jsp" class="btn btn-primary">
+                            <span class="material-icons-sharp">add</span> Add New Category
+                        </a>
+                    </div>
+
+                    <!-- Display messages -->
+                    <c:if test="${param.error != null}">
+                        <div class="alert alert-danger"
+                            style="background: var(--color-danger); color: white; padding: 1rem; border-radius: var(--border-radius-1); margin-bottom: 1rem;">
+                            <span class="material-icons-sharp"
+                                style="font-size: 1.2rem; vertical-align: middle; margin-right: 0.5rem;">error</span>
+                            ${param.error}
+                        </div>
+                    </c:if>
+
+                    <c:if test="${param.message != null}">
+                        <div class="alert alert-success"
+                            style="background: var(--color-success); color: white; padding: 1rem; border-radius: var(--border-radius-1); margin-bottom: 1rem;">
+                            <span class="material-icons-sharp"
+                                style="font-size: 1.2rem; vertical-align: middle; margin-right: 0.5rem;">check_circle</span>
+                            ${param.message}
+                        </div>
+                    </c:if>
+
+                    <!-- Categories Grid -->
+                    <c:choose>
+                        <c:when test="${empty categories}">
+                            <div class="card text-center"
+                                style="display: flex; flex-direction: column; align-items: center; padding: 3rem;">
+                                <span class="material-icons-sharp"
+                                    style="font-size: 4rem; color: var(--color-info-dark); margin-bottom: 1rem;">category</span>
+                                <h3>No Categories Found</h3>
+                                <p>Start by creating your first product category.</p>
+                                <a href="category-form.jsp" class="btn btn-primary mt-2">
+                                    <span class="material-icons-sharp">add</span> Add First Category
+                                </a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="grid-view">
+                                <c:forEach var="category" items="${categories}">
+                                    <div class="card">
+                                        <div class="d-flex justify-between align-center mb-3">
+                                            <h3 style="font-size: 1.2rem; color: var(--color-primary);">${category.name}
+                                            </h3>
+                                            <div class="d-flex gap-1">
+                                                <a href="category?action=edit&id=${category.id}" class="btn btn-warning"
+                                                    style="padding: 0.4rem 0.6rem;">
+                                                    <span class="material-icons-sharp"
+                                                        style="font-size: 1.2rem;">edit</span>
+                                                </a>
+                                                <button onclick="deleteCategory(${category.id}, '${category.name}')"
+                                                    class="btn btn-danger" style="padding: 0.4rem 0.6rem;">
+                                                    <span class="material-icons-sharp"
+                                                        style="font-size: 1.2rem;">delete</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="mb-3">${category.description}</p>
+                                        <div class="d-flex justify-between align-center mt-2">
+                                            <small class="text-muted"
+                                                style="display: flex; align-items: center; gap: 0.3rem;">
+                                                <span class="material-icons-sharp"
+                                                    style="font-size: 1rem;">calendar_today</span>
+                                                Created: ${category.createdAt.toLocalDate()}
+                                            </small>
+                                            <a href="product?action=list&categoryId=${category.id}"
+                                                class="btn btn-primary"
+                                                style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+                                                View Products
                                             </a>
-                                            <button onclick="deleteCategory(${category.id}, '${category.name}')"
-                                                class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
                                         </div>
                                     </div>
-                                    <p>${category.description}</p>
-                                    <div class="d-flex justify-between align-center mt-2">
-                                        <small class="text-muted">
-                                            <i class="fas fa-calendar"></i>
-                                            Created: ${category.createdAt.toLocalDate()}
-                                        </small>
-                                        <a href="product?action=list&categoryId=${category.id}"
-                                            class="btn btn-info btn-sm">
-                                            <i class="fas fa-boxes"></i> View Products
-                                        </a>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                                </c:forEach>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </main>
             </div>
 
             <script>

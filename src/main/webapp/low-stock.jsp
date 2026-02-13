@@ -15,192 +15,203 @@
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Low Stock Alert - Stockio</title>
-                    <link rel="stylesheet" href="css/style.css">
-                    <link rel="stylesheet"
-                        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+                    <link rel="stylesheet" href="css/main.css">
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
                 </head>
 
                 <body>
-                    <jsp:include page="includes/header.jsp" />
+                    <div class="container wide-view">
+                        <jsp:include page="includes/sidebar.jsp" />
 
-                    <div class="container">
-                        <div class="d-flex justify-between align-center mb-3">
-                            <h1 class="page-title">
-                                <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i> Low Stock
-                                Alert
-                            </h1>
-                            <a href="product?action=list" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back to Products
-                            </a>
-                        </div>
+                        <main>
+                            <div class="d-flex justify-between align-center mb-3">
+                                <h1 class="page-title">
+                                    <span class="material-icons-sharp text-warning">warning</span> Low Stock Alert
+                                </h1>
+                                <a href="product?action=list" class="btn btn-secondary">
+                                    <span class="material-icons-sharp">arrow_back</span> Back to Products
+                                </a>
+                            </div>
 
-                        <!-- Alert Summary -->
-                        <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <strong>Attention Required!</strong> The following products are running low on stock and
-                            need
-                            immediate attention.
-                        </div>
-
-                        <!-- Low Stock Products -->
-                        <c:choose>
-                            <c:when test="${empty products}">
-                                <div class="card text-center">
-                                    <i class="fas fa-check-circle"
-                                        style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;"></i>
-                                    <h3>All Good!</h3>
-                                    <p>No products are currently running low on stock.</p>
-                                    <a href="product?action=list" class="btn btn-primary">
-                                        <i class="fas fa-boxes"></i> View All Products
-                                    </a>
+                            <!-- Alert Summary -->
+                            <div class="alert alert-warning">
+                                <div class="d-flex align-center gap-1">
+                                    <span class="material-icons-sharp">warning</span>
+                                    <div>
+                                        <strong>Attention Required!</strong> The following products are running low on
+                                        stock and need immediate attention.
+                                    </div>
                                 </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="card">
-                                    <div class="card-header d-flex justify-between align-center">
-                                        <h2 class="card-title">
-                                            <i class="fas fa-list"></i> Products Requiring Attention
-                                        </h2>
-                                        <div>
-                                            <button onclick="restockAll()" class="btn btn-success">
-                                                <i class="fas fa-plus"></i> Restock All
-                                            </button>
-                                            <button onclick="exportLowStock()" class="btn btn-info">
-                                                <i class="fas fa-download"></i> Export List
-                                            </button>
+                            </div>
+
+                            <!-- Low Stock Products -->
+                            <c:choose>
+                                <c:when test="${empty products}">
+                                    <div class="card text-center p-3">
+                                        <span class="material-icons-sharp text-success icon-large">check_circle</span>
+                                        <h3>All Good!</h3>
+                                        <p>No products are currently running low on stock.</p>
+                                        <a href="product?action=list" class="btn btn-primary mt-2">
+                                            <span class="material-icons-sharp">inventory_2</span> View All Products
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="card">
+                                        <div class="d-flex justify-between align-center mb-2">
+                                            <h2 class="h2">
+                                                <span class="material-icons-sharp align-middle">list</span> Products
+                                                Requiring
+                                                Attention
+                                            </h2>
+                                            <div class="d-flex gap-1">
+                                                <button onclick="restockAll()" class="btn btn-success">
+                                                    <span class="material-icons-sharp">add</span> Restock All
+                                                </button>
+                                                <button onclick="exportLowStock()" class="btn btn-info">
+                                                    <span class="material-icons-sharp">download</span> Export List
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>SKU</th>
+                                                        <th>Category</th>
+                                                        <th>Current Stock</th>
+                                                        <th>Reorder Level</th>
+                                                        <th>Supplier</th>
+                                                        <th>Priority</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach var="product" items="${products}">
+                                                        <tr>
+                                                            <td>
+                                                                <strong>${product.name}</strong>
+                                                                <c:if test="${not empty product.description}">
+                                                                    <br><small
+                                                                        class="text-muted">${product.description}</small>
+                                                                </c:if>
+                                                            </td>
+                                                            <td><strong>${product.sku}</strong></td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty product.category}">
+                                                                        <span
+                                                                            class="badge badge-info">${product.category.name}</span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="text-muted">No Category</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <span
+                                                                    class="badge badge-danger">${product.quantityInStock}</span>
+                                                            </td>
+                                                            <td>${product.reorderLevel}</td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty product.supplier}">
+                                                                        ${product.supplier.name}
+                                                                        <c:if
+                                                                            test="${not empty product.supplier.phone}">
+                                                                            <br><small><a
+                                                                                    href="tel:${product.supplier.phone}">${product.supplier.phone}</a></small>
+                                                                        </c:if>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="text-muted">No Supplier</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <c:choose>
+                                                                    <c:when test="${product.quantityInStock == 0}">
+                                                                        <span class="badge badge-danger">CRITICAL</span>
+                                                                    </c:when>
+                                                                    <c:when
+                                                                        test="${product.quantityInStock <= (product.reorderLevel / 2)}">
+                                                                        <span class="badge badge-warning">HIGH</span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="badge badge-info">MEDIUM</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex gap-1 justify-content-center">
+                                                                    <button
+                                                                        class="btn btn-success btn-sm quick-restock-btn"
+                                                                        data-product-id="${product.id}"
+                                                                        data-product-name="${product.name}"
+                                                                        title="Quick Restock">
+                                                                        <span class="material-icons-sharp">add</span>
+                                                                    </button>
+                                                                    <a href="product?action=view&id=${product.id}"
+                                                                        class="btn btn-info btn-sm"
+                                                                        title="View Details">
+                                                                        <span
+                                                                            class="material-icons-sharp">visibility</span>
+                                                                    </a>
+                                                                    <c:if test="${not empty product.supplier}">
+                                                                        <button
+                                                                            class="btn btn-warning btn-sm contact-supplier-btn"
+                                                                            data-name="${product.supplier.name}"
+                                                                            data-email="${product.supplier.email}"
+                                                                            data-phone="${product.supplier.phone}"
+                                                                            title="Contact Supplier">
+                                                                            <span
+                                                                                class="material-icons-sharp">phone</span>
+                                                                        </button>
+                                                                    </c:if>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
 
-                                    <div class="table-container">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>SKU</th>
-                                                    <th>Category</th>
-                                                    <th>Current Stock</th>
-                                                    <th>Reorder Level</th>
-                                                    <th>Supplier</th>
-                                                    <th>Priority</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="product" items="${products}">
-                                                    <tr>
-                                                        <td>
-                                                            <strong>${product.name}</strong>
-                                                            <c:if test="${not empty product.description}">
-                                                                <br><small
-                                                                    class="text-muted">${product.description}</small>
-                                                            </c:if>
-                                                        </td>
-                                                        <td><strong>${product.sku}</strong></td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${not empty product.category}">
-                                                                    <span
-                                                                        class="badge badge-info">${product.category.name}</span>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <span class="text-muted">No Category</span>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-danger">${product.quantityInStock}</span>
-                                                        </td>
-                                                        <td>${product.reorderLevel}</td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${not empty product.supplier}">
-                                                                    ${product.supplier.name}
-                                                                    <c:if test="${not empty product.supplier.phone}">
-                                                                        <br><small><a
-                                                                                href="tel:${product.supplier.phone}">${product.supplier.phone}</a></small>
-                                                                    </c:if>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <span class="text-muted">No Supplier</span>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>
-                                                            <c:choose>
-                                                                <c:when test="${product.quantityInStock == 0}">
-                                                                    <span class="badge badge-danger">CRITICAL</span>
-                                                                </c:when>
-                                                                <c:when
-                                                                    test="${product.quantityInStock <= (product.reorderLevel / 2)}">
-                                                                    <span class="badge badge-warning">HIGH</span>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <span class="badge badge-info">MEDIUM</span>
-                                                                </c:otherwise>
-                                                            </c:choose>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex gap-1">
-                                                                <button class="btn btn-success btn-sm quick-restock-btn"
-                                                                    data-product-id="${product.id}"
-                                                                    data-product-name="${product.name}"
-                                                                    title="Quick Restock">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                                <a href="product?action=view&id=${product.id}"
-                                                                    class="btn btn-info btn-sm" title="View Details">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </a>
-                                                                <c:if test="${not empty product.supplier}">
-                                                                    <button
-                                                                        class="btn btn-warning btn-sm contact-supplier-btn"
-                                                                        data-name="${product.supplier.name}"
-                                                                        data-email="${product.supplier.email}"
-                                                                        data-phone="${product.supplier.phone}"
-                                                                        title="Contact Supplier">
-                                                                        <i class="fas fa-phone"></i>
-                                                                    </button>
-                                                                </c:if>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
+                                    <!-- Quick Actions -->
+                                    <div class="card mt-2">
+                                        <div class="card-header mb-2">
+                                            <h2 class="h2">
+                                                <span class="material-icons-sharp align-middle">bolt</span> Quick
+                                                Actions
+                                            </h2>
+                                        </div>
+                                        <div class="grid-view">
+                                            <button onclick="generatePurchaseOrder()" class="btn btn-primary">
+                                                <span class="material-icons-sharp">description</span> Generate Purchase
+                                                Order
+                                            </button>
+                                            <button onclick="notifySuppliers()" class="btn btn-warning">
+                                                <span class="material-icons-sharp">email</span> Notify All Suppliers
+                                            </button>
+                                            <button onclick="scheduleRestock()" class="btn btn-info">
+                                                <span class="material-icons-sharp">event</span> Schedule Restock
+                                            </button>
+                                            <button onclick="setAutoReorder()" class="btn btn-success">
+                                                <span class="material-icons-sharp">sync</span> Enable Auto-Reorder
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <!-- Quick Actions -->
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="card-title">
-                                            <i class="fas fa-bolt"></i> Quick Actions
-                                        </h2>
-                                    </div>
-                                    <div class="dashboard-grid">
-                                        <button onclick="generatePurchaseOrder()" class="btn btn-primary">
-                                            <i class="fas fa-file-alt"></i> Generate Purchase Order
-                                        </button>
-                                        <button onclick="notifySuppliers()" class="btn btn-warning">
-                                            <i class="fas fa-envelope"></i> Notify All Suppliers
-                                        </button>
-                                        <button onclick="scheduleRestock()" class="btn btn-info">
-                                            <i class="fas fa-calendar"></i> Schedule Restock
-                                        </button>
-                                        <button onclick="setAutoReorder()" class="btn btn-success">
-                                            <i class="fas fa-sync"></i> Enable Auto-Reorder
-                                        </button>
-                                    </div>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
+                                </c:otherwise>
+                            </c:choose>
+                        </main>
                     </div>
 
                     <!-- Quick Restock Modal -->
                     <div id="restockModal" class="modal">
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header d-flex justify-between align-center mb-3">
                                 <h3>Quick Restock</h3>
                                 <span class="close" onclick="closeRestockModal()">&times;</span>
                             </div>
@@ -225,10 +236,10 @@
                                         value="Restock - Low Stock Alert" required>
                                 </div>
 
-                                <div class="d-flex gap-2">
-                                    <button type="submit" class="btn btn-success">Add Stock</button>
+                                <div class="d-flex gap-2 justify-end mt-3">
                                     <button type="button" class="btn btn-secondary"
                                         onclick="closeRestockModal()">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Add Stock</button>
                                 </div>
                             </form>
                         </div>
@@ -316,21 +327,20 @@
                         }
 
                         function notifySuppliers() {
-                            alert('Supplier notification feature would be implemented here.');
+                            alert('Suppliers notification feature would be implemented here.');
                         }
 
                         function scheduleRestock() {
-                            alert('Restock scheduling feature would be implemented here.');
+                            alert('Schedule restock feature would be implemented here.');
                         }
 
                         function setAutoReorder() {
-                            alert('Auto-reorder configuration feature would be implemented here.');
+                            alert('Auto-reorder feature would be implemented here.');
                         }
 
                         // Close modal when clicking outside
                         window.onclick = function (event) {
-                            const modal = document.getElementById('restockModal');
-                            if (event.target == modal) {
+                            if (event.target == document.getElementById('restockModal')) {
                                 closeRestockModal();
                             }
                         }

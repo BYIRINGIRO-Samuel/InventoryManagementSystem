@@ -13,125 +13,131 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Reports - Stockio</title>
-            <link rel="stylesheet" href="css/style.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link rel="stylesheet" href="css/main.css">
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </head>
 
         <body>
-            <jsp:include page="includes/header.jsp" />
+            <div class="container wide-view">
+                <jsp:include page="includes/sidebar.jsp" />
 
-            <div class="container">
-                <h1 class="page-title">
-                    <i class="fas fa-chart-bar"></i> Reports & Analytics
-                </h1>
+                <main>
+                    <h1 class="page-title">
+                        <span class="material-icons-sharp">bar_chart</span> Reports & Analytics
+                    </h1>
 
-                <!-- Report Cards -->
-                <div class="dashboard-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-boxes"></i> Inventory Report
-                            </h3>
+                    <!-- Report Cards -->
+                    <div class="grid-view mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <span class="material-icons-sharp">inventory_2</span> Inventory Report
+                                </h3>
+                            </div>
+                            <p class="text-muted mt-2 mb-2">Comprehensive overview of your inventory status, stock
+                                levels, and product performance.</p>
+                            <button onclick="generateInventoryReport()" class="btn btn-primary">
+                                <span class="material-icons-sharp">description</span> Generate Report
+                            </button>
                         </div>
-                        <p>Comprehensive overview of your inventory status, stock levels, and product performance.</p>
-                        <button onclick="generateInventoryReport()" class="btn btn-primary">
-                            <i class="fas fa-file-alt"></i> Generate Report
-                        </button>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <span class="material-icons-sharp text-warning">warning</span> Low Stock Report
+                                </h3>
+                            </div>
+                            <p class="text-muted mt-2 mb-2">Products that are running low and need to be restocked soon.
+                            </p>
+                            <button onclick="generateLowStockReport()" class="btn btn-warning">
+                                <span class="material-icons-sharp">description</span> Generate Report
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <span class="material-icons-sharp text-success">attach_money</span> Value Report
+                                </h3>
+                            </div>
+                            <p class="text-muted mt-2 mb-2">Total inventory value, profit margins, and financial
+                                insights.</p>
+                            <button onclick="generateValueReport()" class="btn btn-success">
+                                <span class="material-icons-sharp">description</span> Generate Report
+                            </button>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <span class="material-icons-sharp text-primary">history</span> Activity Report
+                                </h3>
+                            </div>
+                            <p class="text-muted mt-2 mb-2">Recent stock movements, transactions, and system activity.
+                            </p>
+                            <button onclick="generateActivityReport()" class="btn btn-info">
+                                <span class="material-icons-sharp">description</span> Generate Report
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-exclamation-triangle"></i> Low Stock Report
-                            </h3>
+                    <!-- Charts Section -->
+                    <div class="grid-view" style="gap: 2rem; margin-top: 2rem;">
+                        <!-- Inventory by Category Chart -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <span class="material-icons-sharp">pie_chart</span> Inventory by Category
+                                </h2>
+                            </div>
+                            <canvas id="categoryChart" width="400" height="300"></canvas>
                         </div>
-                        <p>Products that are running low and need to be restocked soon.</p>
-                        <button onclick="generateLowStockReport()" class="btn btn-warning">
-                            <i class="fas fa-file-alt"></i> Generate Report
-                        </button>
+
+                        <!-- Stock Levels Chart -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <span class="material-icons-sharp">bar_chart</span> Stock Levels
+                                </h2>
+                            </div>
+                            <canvas id="stockChart" width="400" height="300"></canvas>
+                        </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-dollar-sign"></i> Value Report
-                            </h3>
-                        </div>
-                        <p>Total inventory value, profit margins, and financial insights.</p>
-                        <button onclick="generateValueReport()" class="btn btn-success">
-                            <i class="fas fa-file-alt"></i> Generate Report
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-history"></i> Activity Report
-                            </h3>
-                        </div>
-                        <p>Recent stock movements, transactions, and system activity.</p>
-                        <button onclick="generateActivityReport()" class="btn btn-info">
-                            <i class="fas fa-file-alt"></i> Generate Report
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Charts Section -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
-                    <!-- Inventory by Category Chart -->
-                    <div class="card">
+                    <!-- Monthly Trends -->
+                    <div class="card mt-3">
                         <div class="card-header">
                             <h2 class="card-title">
-                                <i class="fas fa-chart-pie"></i> Inventory by Category
+                                <span class="material-icons-sharp">show_chart</span> Monthly Inventory Trends
                             </h2>
                         </div>
-                        <canvas id="categoryChart" width="400" height="300"></canvas>
+                        <canvas id="trendsChart" width="800" height="400"></canvas>
                     </div>
 
-                    <!-- Stock Levels Chart -->
-                    <div class="card">
-                        <div class="card-header">
+                    <!-- Export Options -->
+                    <div class="card mt-3">
+                        <div class="card-header mb-2">
                             <h2 class="card-title">
-                                <i class="fas fa-chart-bar"></i> Stock Levels
+                                <span class="material-icons-sharp">download</span> Export Options
                             </h2>
                         </div>
-                        <canvas id="stockChart" width="400" height="300"></canvas>
+                        <div class="d-flex gap-1" style="flex-wrap: wrap;">
+                            <button onclick="exportToPDF()" class="btn btn-danger">
+                                <span class="material-icons-sharp">picture_as_pdf</span> Export to PDF
+                            </button>
+                            <button onclick="exportToExcel()" class="btn btn-success">
+                                <span class="material-icons-sharp">table_view</span> Export to Excel
+                            </button>
+                            <button onclick="exportToCSV()" class="btn btn-info">
+                                <span class="material-icons-sharp">grid_on</span> Export to CSV
+                            </button>
+                            <button onclick="printReport()" class="btn btn-secondary">
+                                <span class="material-icons-sharp">print</span> Print Report
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Monthly Trends -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-chart-line"></i> Monthly Inventory Trends
-                        </h2>
-                    </div>
-                    <canvas id="trendsChart" width="800" height="400"></canvas>
-                </div>
-
-                <!-- Export Options -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">
-                            <i class="fas fa-download"></i> Export Options
-                        </h2>
-                    </div>
-                    <div class="dashboard-grid">
-                        <button onclick="exportToPDF()" class="btn btn-danger">
-                            <i class="fas fa-file-pdf"></i> Export to PDF
-                        </button>
-                        <button onclick="exportToExcel()" class="btn btn-success">
-                            <i class="fas fa-file-excel"></i> Export to Excel
-                        </button>
-                        <button onclick="exportToCSV()" class="btn btn-info">
-                            <i class="fas fa-file-csv"></i> Export to CSV
-                        </button>
-                        <button onclick="printReport()" class="btn btn-secondary">
-                            <i class="fas fa-print"></i> Print Report
-                        </button>
-                    </div>
-                </div>
+                </main>
             </div>
 
             <script>
@@ -149,11 +155,11 @@
                             datasets: [{
                                 data: [35, 25, 20, 15, 5],
                                 backgroundColor: [
-                                    '#8B4513',
-                                    '#D2691E',
-                                    '#CD853F',
-                                    '#F5DEB3',
-                                    '#DEB887'
+                                    '#001f3f', // Navy Blue
+                                    '#5cb85c', // Success
+                                    '#f0ad4e', // Warning
+                                    '#d9534f', // Danger
+                                    '#7d8da1'  // Accent
                                 ]
                             }]
                         },
@@ -177,9 +183,9 @@
                                 label: 'Products',
                                 data: [120, 15, 3],
                                 backgroundColor: [
-                                    '#28A745',
-                                    '#FFC107',
-                                    '#DC3545'
+                                    '#5cb85c', // Success
+                                    '#f0ad4e', // Warning
+                                    '#d9534f'  // Danger
                                 ]
                             }]
                         },
@@ -202,14 +208,14 @@
                             datasets: [{
                                 label: 'Stock In',
                                 data: [65, 59, 80, 81, 56, 55],
-                                borderColor: '#28A745',
-                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                borderColor: '#5cb85c',
+                                backgroundColor: 'rgba(92, 184, 92, 0.1)',
                                 tension: 0.4
                             }, {
                                 label: 'Stock Out',
                                 data: [28, 48, 40, 19, 86, 27],
-                                borderColor: '#DC3545',
-                                backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                                borderColor: '#d9534f',
+                                backgroundColor: 'rgba(217, 83, 79, 0.1)',
                                 tension: 0.4
                             }]
                         },

@@ -61,6 +61,9 @@ public class ProductServlet extends HttpServlet {
                 case "lowstock":
                     lowStockProducts(request, response);
                     break;
+                case "new":
+                    showAddForm(request, response);
+                    break;
                 default:
                     listProducts(request, response);
             }
@@ -104,6 +107,16 @@ public class ProductServlet extends HttpServlet {
         request.setAttribute("categories", categories);
         request.setAttribute("suppliers", suppliers);
         request.getRequestDispatcher("products.jsp").forward(request, response);
+    }
+
+    private void showAddForm(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        List<Category> categories = categoryDAO.findAll();
+        List<Supplier> suppliers = supplierDAO.findAll();
+        
+        request.setAttribute("categories", categories);
+        request.setAttribute("suppliers", suppliers);
+        request.getRequestDispatcher("product-form.jsp").forward(request, response);
     }
     
     private void viewProduct(HttpServletRequest request, HttpServletResponse response) 
