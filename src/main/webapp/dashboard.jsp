@@ -27,75 +27,56 @@
 						<div class="middle">
 							<div class="left">
 								<h3>Total Sales</h3>
-								<h1>$25,024</h1>
-							</div>
-							<div class="progress">
-								<svg>
-									<circle cx="38" cy="38" r="36"></circle>
-								</svg>
-								<div class="number">
-									<p>81%</p>
-								</div>
+								<h1>${totalSalesAmount}</h1>
 							</div>
 						</div>
-						<small class="text-muted"> Last 24 Hours </small>
+						<small class="text-muted"> Overall </small>
 					</div>
-					<!-- End of Sales -->
 					<div class="expenses">
-						<span class="material-icons-sharp"> bar_chart </span>
+						<span class="material-icons-sharp"> warning </span>
 						<div class="middle">
 							<div class="left">
-								<h3>Total Expenses</h3>
-								<h1>$14,160</h1>
-							</div>
-							<div class="progress">
-								<svg>
-									<circle cx="38" cy="38" r="36"></circle>
-								</svg>
-								<div class="number">
-									<p>62%</p>
-								</div>
+								<h3>Low Stock Items</h3>
+								<h1>${lowStockCount}</h1>
 							</div>
 						</div>
-						<small class="text-muted"> Last 24 Hours </small>
+						<small class="text-muted"> Current </small>
 					</div>
-					<!-- End of Expenses -->
 					<div class="income">
-						<span class="material-icons-sharp"> stacked_line_chart </span>
+						<span class="material-icons-sharp"> inventory_2 </span>
 						<div class="middle">
 							<div class="left">
-								<h3>Total Income</h3>
-								<h1>$10,864</h1>
-							</div>
-							<div class="progress">
-								<svg>
-									<circle cx="38" cy="38" r="36"></circle>
-								</svg>
-								<div class="number">
-									<p>44%</p>
-								</div>
+								<h3>Total Products</h3>
+								<h1>${productsCount}</h1>
 							</div>
 						</div>
-						<small class="text-muted"> Last 24 Hours </small>
+						<small class="text-muted"> Active </small>
 					</div>
-					<!-- End of Income -->
 				</div>
 				<!-- End of Insights -->
 
 				<div class="recent-orders">
-					<h2>Recent Orders</h2>
-					<table id="product-table">
+					<h2>Recent Sales</h2>
+					<table id="sales-table">
 						<thead>
 							<tr>
-								<th>Product Name</th>
-								<th>Product Number</th>
-								<th>Payment</th>
+								<th>Order #</th>
+								<th>Customer</th>
+								<th>Total</th>
 								<th>Status</th>
-								<th></th>
+								<th>Date</th>
 							</tr>
 						</thead>
 						<tbody>
-							<!-- Table rows are populated by js/charts.js or script.js -->
+							<c:forEach var="o" items="${recentOrders}">
+								<tr>
+									<td><strong>${o.orderNumber}</strong></td>
+									<td>${empty o.customerName ? 'N/A' : o.customerName}</td>
+									<td>${o.totalAmount}</td>
+									<td>${o.status}</td>
+									<td>${o.createdAt}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 					<a href="product?action=list">Show All</a>

@@ -47,7 +47,7 @@
   
   <filter-mapping>
     <filter-name>AuthenticationFilter</filter-name>
-    <url-pattern>/dashboard.jsp</url-pattern>
+    <url-pattern>/dashboard</url-pattern>
     <url-pattern>/products.jsp</url-pattern>
     <url-pattern>/product-form.jsp</url-pattern>
     <url-pattern>/sales.jsp</url-pattern>

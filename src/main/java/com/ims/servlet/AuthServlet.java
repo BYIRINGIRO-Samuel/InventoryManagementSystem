@@ -70,7 +70,7 @@ public class AuthServlet extends HttpServlet {
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("userRole", user.getRole().toString());
                 
-                response.sendRedirect(request.getContextPath() + "/dashboard.jsp");
+                response.sendRedirect(request.getContextPath() + "/dashboard");
             } else {
                 response.sendRedirect("login.jsp?error=Invalid username or password");
             }

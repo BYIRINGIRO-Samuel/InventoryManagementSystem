@@ -12,6 +12,7 @@ com\ims\model\Category.class
 com\ims\dao\UserDAO.class
 com\ims\model\SalesOrderItem.class
 com\ims\util\PasswordUtil.class
+com\ims\servlet\DashboardServlet.class
 com\ims\model\SalesOrder$Status.class
 com\ims\dao\ProductDAO.class
 com\ims\dao\SupplierDAO.class

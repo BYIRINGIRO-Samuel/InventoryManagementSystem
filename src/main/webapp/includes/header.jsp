@@ -3,10 +3,10 @@
 
 <div class="header">
     <div class="header-content">
-        <a href="dashboard.jsp" class="logo">Stockio</a>
+        <a href="dashboard" class="logo">Stockio</a>
         
         <ul class="nav-menu">
-            <li><a href="dashboard.jsp">Dashboard</a></li>
+            <li><a href="dashboard">Dashboard</a></li>
             <li><a href="product?action=list">Products</a></li>
             <li><a href="category?action=list">Categories</a></li>
             <li><a href="supplier?action=list">Suppliers</a></li>
