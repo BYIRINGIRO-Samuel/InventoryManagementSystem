@@ -60,7 +60,7 @@
                                     <div class="middle">
                                         <div class="left">
                                             <h3>Low Stock Items</h3>
-                                            <h1 id="lowStockCount">0</h1>
+                                            <h1>${lowStockCount}</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,10 @@
                                     <div class="middle">
                                         <div class="left">
                                             <h3>Total Inventory Value</h3>
-                                            <h1 id="totalValue">$0</h1>
+                                            <h1>
+                                                <fmt:formatNumber value="${totalInventoryValue}" type="currency"
+                                                    currencySymbol="$" />
+                                            </h1>
                                         </div>
                                     </div>
                                 </div>
@@ -187,23 +190,6 @@
                 </div>
 
                 <script src="${pageContext.request.contextPath}/js/script.js"></script>
-                <script>
-                    // Calculate stats client-side or server-side. 
-                    // Here we can use simple JS to sum up values if not provided by server.
-                    // For now, let's just populate with what we have.
-                    // Ideally these should be calculated on the server and passed as attributes.
-
-                    // Simple client-side calculation example for Total Value (if needed)
-                    let totalValue = 0;
-                    let lowStock = 0;
-                    <c:forEach var="p" items="${products}">
-                        totalValue += ${ (p.price ne null ? p.price : 0) * (p.quantityInStock ne null ? p.quantityInStock : 0) };
-                        if (${ p.quantityInStock ne null and p.reorderLevel ne null and p.quantityInStock <= p.reorderLevel }) lowStock++;
-                    </c:forEach>
-
-                    document.getElementById('totalValue').innerText = '$' + totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    document.getElementById('lowStockCount').innerText = lowStock;
-                </script>
             </body>
 
             </html>

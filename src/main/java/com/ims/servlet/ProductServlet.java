@@ -102,10 +102,24 @@ public class ProductServlet extends HttpServlet {
         List<Product> products = productDAO.findActiveProducts();
         List<Category> categories = categoryDAO.findAll();
         List<Supplier> suppliers = supplierDAO.findAll();
+        java.math.BigDecimal totalValue = java.math.BigDecimal.ZERO;
+        int lowStockCount = 0;
+        for (Product p : products) {
+            java.math.BigDecimal price = p.getPrice() != null ? p.getPrice() : java.math.BigDecimal.ZERO;
+            int qty = p.getQuantityInStock() != null ? p.getQuantityInStock() : 0;
+            totalValue = totalValue.add(price.multiply(java.math.BigDecimal.valueOf(qty)));
+            Integer q = p.getQuantityInStock();
+            Integer r = p.getReorderLevel();
+            if (q != null && r != null && q <= r) {
+                lowStockCount++;
+            }
+        }
         
         request.setAttribute("products", products);
         request.setAttribute("categories", categories);
         request.setAttribute("suppliers", suppliers);
+        request.setAttribute("totalInventoryValue", totalValue);
+        request.setAttribute("lowStockCount", lowStockCount);
         request.getRequestDispatcher("products.jsp").forward(request, response);
     }
 
