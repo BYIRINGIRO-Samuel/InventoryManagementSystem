@@ -155,7 +155,7 @@
                                                                 <span class="badge badge-danger">Out of Stock</span>
                                                             </c:when>
                                                             <c:when
-                                                                test="${product.quantityInStock <= product.minStockLevel}">
+                                                                test="${product.quantityInStock <= product.reorderLevel}">
                                                                 <span class="badge badge-warning">Low Stock</span>
                                                             </c:when>
                                                             <c:otherwise>
@@ -197,8 +197,8 @@
                     let totalValue = 0;
                     let lowStock = 0;
                     <c:forEach var="p" items="${products}">
-                        totalValue += ${p.price * p.quantityInStock};
-                        if (${p.quantityInStock <= p.minStockLevel}) lowStock++;
+                        totalValue += ${ (p.price ne null ? p.price : 0) * (p.quantityInStock ne null ? p.quantityInStock : 0) };
+                        if (${ p.quantityInStock ne null and p.reorderLevel ne null and p.quantityInStock <= p.reorderLevel }) lowStock++;
                     </c:forEach>
 
                     document.getElementById('totalValue').innerText = '$' + totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
